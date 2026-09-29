@@ -1,0 +1,171 @@
+﻿
+
+using System;
+
+
+public class Game
+{
+    public static void Main(string[] args)
+    {
+        Fighter fighter = new Fighter();
+        Wizard wizard = new Wizard();
+        Game game = new Game();
+        game.fightItOut(fighter,wizard);
+    }
+
+    // game takes 2 players as the parameters
+    public void fightItOut(Player player1, Player player2)
+        {
+            while (player1.getHP() > 0 && player2.getHP() > 0)
+            {
+                //player 1 attacks player 2
+                player1.randomDamage();
+
+                int damage1 = player1.getATK();
+                player2.setHP(player2.getHP() - damage1);
+
+                Console.WriteLine(player1.getName() + " dealt " + damage1 + " damage to " + player2.getName() + ".");
+
+            //check to see if plater 2 is dead 
+            if (player2.getHP() <= 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine(player1.getName() + " WON! ");
+                break;
+            }
+
+        //player 2 attacks player 1
+            player2.randomDamage();
+
+            int damage2 = player2.getATK();
+            player1.setHP(player1.getHP() - damage2);
+            Console.WriteLine();
+            Console.WriteLine(player2.getName() + " dealt " + damage2 + " damage to " + player1.getName() + ".");
+            Console.WriteLine(player1.getName() + " HP: " + player1.getHP());
+            Console.WriteLine(player2.getName() + " HP: " + player2.getHP());
+
+
+// checks if player is dead
+            if(player1.getHP() <= 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine(player2.getName() + " WON! ");
+                break;
+            }
+        }
+    }
+}
+
+    //player class
+public abstract class Player{
+
+    private int HP;
+    private int ATK;
+    private string name;
+    Random rnd = new Random();
+
+
+    public Player(){
+        HP = 60;
+        ATK = 5;
+        name = "Player";
+    }
+    //returns HP
+    public int getHP(){
+        return HP;
+    }
+
+    public void setHP(int new_HP){
+        HP = new_HP;
+    }
+
+    public int getATK(){
+        return ATK;
+    }
+
+    public string getName()
+    {
+        return name;
+    }
+    public void setName(string new_name)
+    {
+        name = new_name;
+    }
+
+    public void setATK(int new_ATK){
+        ATK = new_ATK;
+    }
+
+    public abstract void randomDamage();
+
+    public abstract void specialAttack();
+    
+}
+
+
+public class Fighter : Player 
+{
+    Random rnd = new Random();
+
+    public Fighter()
+    {
+        setName("Fighter");
+        setHP(50);
+    }
+    public override void randomDamage()
+    {
+        setATK(rnd.Next(10 , 21));
+    
+    }
+    public override void specialAttack()
+    {
+        setATK(25);
+        Console.WriteLine("Fighter used a special attack");
+        Console.WriteLine();
+        Console.WriteLine("Figher dealt" + getATK() + "special damage");
+    }
+}
+
+public class Wizard : Player 
+{
+    Random rnd = new Random();
+
+
+    public Wizard()
+    {
+        setName("wizard");
+        setHP(50);
+        
+    }
+
+    public override void randomDamage()
+    {
+        setATK(rnd.Next(5,40));
+        
+    }
+
+    public override void specialAttack()
+    {
+        setATK(60);
+        Console.WriteLine("Wizard used a special attack");
+        Console.WriteLine("Wizard dealt" + getATK() + " special damge");
+    }
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
