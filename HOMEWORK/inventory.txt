@@ -1,0 +1,152 @@
+using System;
+
+using System.Collections.Generic;
+
+//abstract player class from class notes 
+public abstract class player{
+    private int HP = 20;
+    bool isPoisoned = false;
+    bool isUndead = false;
+    bool isStone = false;
+    bool isDisease = false;
+
+ //getter
+    public int getHP(){
+        return HP;
+    }    
+    //setter
+    public void setHP(int newHP){
+        HP = newHP;
+    }  
+    
+    public bool Poisoned(){
+        return isPoisoned;
+    }
+    
+    public void setPoisoned(){
+        isPoisoned = !isPoisoned;
+    }
+    public abstract void spcATK();
+    
+//warrior class from class 
+public class warrior:player{
+    
+    public int getHP(){
+       return getHP();
+    }
+    public void setHP(int newHP){
+        setHP(newHP);
+    }
+    public override void spcATK(){
+        Console.WriteLine("Define Special Attack Later");
+    }
+}
+//main assignment code
+public class Game {
+public static void Main(string[] args) {
+//list for the inventory system
+    List<Item> Inventory = new List<Item>();
+//
+    Potion potion = new Potion();
+    AddItem(Inventory, potion);
+
+    Potion potion2 = new Potion();
+    AddItem(Inventory, potion2);
+
+    Antidote antidote = new Antidote();
+    AddItem(Inventory, antidote);
+
+    warrior newPlayer = new warrior();
+
+    foreach(Item items in Inventory){
+        Console.WriteLine(items.name + " x" + items.amount);
+        items.ItemEffect(newPlayer);
+        
+    }
+}
+
+    public static void AddItem(List<Item> inventory, Item newItem)
+{
+    foreach(Item item in inventory)
+    {
+        if(item.GetType() == newItem.GetType())
+        {
+            item.amount++;
+            return;
+        }
+    }
+
+    newItem.amount = 1;
+    inventory.Add(newItem);
+}
+}
+
+public abstract class Item{
+
+    public string name;
+    public int amount;
+    public int itemID;
+
+    public bool isUsed;
+
+    public abstract void ItemEffect(player play1);
+}
+
+public class Potion : Item
+{
+    public Potion()
+    {
+        name = "Potion";
+    }
+
+    public override void ItemEffect(player play1)
+    {
+        Console.WriteLine("Players Current HP");
+        Console.WriteLine(play1.getHP());
+
+        int hp = play1.getHP();
+        hp = hp + 20;
+
+        play1.setHP(hp);
+
+        Console.WriteLine("Healed player");
+        Console.WriteLine(play1.getHP());
+    }
+}
+
+public class Antidote : Item
+{
+    public Antidote()
+    {
+        name = "Antidote";
+    }
+
+    public override void ItemEffect(player play1)
+    {
+        if (play1.Poisoned())
+        {
+            Console.WriteLine("Poisoned");
+
+            play1.setPoisoned();
+
+            Console.WriteLine("Poison Healed");
+        }
+        else
+        {
+            Console.WriteLine("Not Poisoned");
+        }
+    }
+}
+}
+ 
+
+
+
+
+
+
+
+
+
+
+    
